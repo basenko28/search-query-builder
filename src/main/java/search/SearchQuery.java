@@ -3,29 +3,20 @@ package search;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Поисковый запрос к магазину.
- *
- * Объект неизменяемый: все поля final, сеттеров нет,
- * конструктор приватный. Создать запрос можно только через Builder.
- */
 public class SearchQuery {
 
     private final String text;
     private final List<Condition> conditions;
     private final List<Range> ranges;
     private final List<Sort> sorts;
-    private final int page;          // 0 - постраничная выдача не задана
+    private final int page;
     private final int pageSize;
     private final boolean fetchAll;
     private final List<String> highlightFields;
     private final List<String> groupByFields;
 
-    // Конструктор приватный - вызывается только из Builder.build()
     private SearchQuery(Builder builder) {
         this.text = builder.text;
-        // Копируем списки, чтобы изменения в строителе не влияли на запрос.
-        // List.copyOf возвращает неизменяемый список.
         this.conditions = List.copyOf(builder.conditions);
         this.ranges = List.copyOf(builder.ranges);
         this.sorts = List.copyOf(builder.sorts);
@@ -105,9 +96,6 @@ public class SearchQuery {
         return result;
     }
 
-    /**
-     * Строитель запроса. Одним строителем можно собрать несколько запросов подряд.
-     */
     public static class Builder {
 
         private String text;
@@ -168,12 +156,10 @@ public class SearchQuery {
         }
 
         public SearchQuery build() {
-            // обязательная часть: текст, условие или диапазон
             boolean hasText = text != null && !text.isEmpty();
             if (!hasText && conditions.isEmpty() && ranges.isEmpty()) {
                 throw new IllegalStateException("Нужно указать текст, условие или диапазон");
             }
-            // взаимоисключающие параметры
             if (fetchAll && page > 0) {
                 throw new IllegalStateException("Нельзя одновременно выдавать по страницам и всё подряд");
             }

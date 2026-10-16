@@ -1,8 +1,5 @@
 package search;
 
-/**
- * Условие по полю товара, например: brand = Lenovo.
- */
 public class Condition {
 
     private final String field;

@@ -1,8 +1,5 @@
 package search;
 
-/**
- * Сортировка по полю (по возрастанию или по убыванию).
- */
 public class Sort {
 
     private final String field;

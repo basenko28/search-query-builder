@@ -15,14 +15,12 @@ public class Main {
         SearchQuery first = builder.build();
         System.out.println(first);
 
-        // продолжаем настраивать тот же строитель и собираем второй запрос
         SearchQuery second = builder.where("inStock", "=", true).build();
         System.out.println(second);
 
         System.out.println("Первый запрос не изменился, условий в нём: "
                 + first.getConditions().size());
 
-        // ошибки
         try {
             SearchQuery.builder().sortBy("price", true).build();
         } catch (IllegalStateException e) {

@@ -1,8 +1,5 @@
 package search;
 
-/**
- * Диапазон значений числового поля, например: price от 1000 до 5000.
- */
 public class Range {
 
     private final String field;
