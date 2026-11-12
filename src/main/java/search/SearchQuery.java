@@ -96,7 +96,7 @@ public class SearchQuery {
         return result;
     }
 
-    public static class Builder {
+    public static class Builder implements QueryBuilder {
 
         private String text;
         private final List<Condition> conditions = new ArrayList<>();
@@ -111,26 +111,31 @@ public class SearchQuery {
         private Builder() {
         }
 
+        @Override
         public Builder text(String text) {
             this.text = text;
             return this;
         }
 
+        @Override
         public Builder where(String field, String operator, Object value) {
             conditions.add(new Condition(field, operator, value));
             return this;
         }
 
+        @Override
         public Builder range(String field, double min, double max) {
             ranges.add(new Range(field, min, max));
             return this;
         }
 
+        @Override
         public Builder sortBy(String field, boolean ascending) {
             sorts.add(new Sort(field, ascending));
             return this;
         }
 
+        @Override
         public Builder page(int page, int pageSize) {
             if (page < 1 || pageSize < 1) {
                 throw new IllegalArgumentException("Номер и размер страницы должны быть больше 0");
@@ -140,21 +145,25 @@ public class SearchQuery {
             return this;
         }
 
+        @Override
         public Builder fetchAll() {
             this.fetchAll = true;
             return this;
         }
 
+        @Override
         public Builder highlight(String field) {
             highlightFields.add(field);
             return this;
         }
 
+        @Override
         public Builder groupBy(String field) {
             groupByFields.add(field);
             return this;
         }
 
+        @Override
         public SearchQuery build() {
             boolean hasText = text != null && !text.isEmpty();
             if (!hasText && conditions.isEmpty() && ranges.isEmpty()) {

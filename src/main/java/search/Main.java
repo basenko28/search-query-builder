@@ -21,6 +21,10 @@ public class Main {
         System.out.println("Первый запрос не изменился, условий в нём: "
                 + first.getConditions().size());
 
+        QueryDirector director = new QueryDirector();
+        System.out.println(director.cheapLaptops(SearchQuery.builder()));
+        System.out.println(director.exportBrand(SearchQuery.builder(), "Asus"));
+
         try {
             SearchQuery.builder().sortBy("price", true).build();
         } catch (IllegalStateException e) {
